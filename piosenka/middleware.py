@@ -27,6 +27,15 @@ class StaticPageFallbackMiddleware:
                     open(index_path, "rb"), content_type="text/html"
                 )
                 return response
+        # Also support explicit /index.html URLs in dev        
+        elif response.status_code == 404 and request.path.endswith("/index.html"):
+            index_path = os.path.join(
+                settings.PZT_STATICPAGE_DIR, request.path.lstrip("/")
+            )
+            print(index_path)
+            if os.path.exists(index_path):
+                response = FileResponse(open(index_path, "rb"), content_type="text/html")
+                return response
         elif response.status_code == 404 and request.path.endswith(".json"):
             json_path = os.path.join(
                 settings.PZT_STATICPAGE_DIR, request.path.lstrip("/")

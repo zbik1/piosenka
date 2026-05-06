@@ -14,7 +14,7 @@ if os.getenv("GAE_APPLICATION", None) or os.getenv("RELEASE", None):
     SECRET_KEY = os.getenv("PIOSENKA_SECRET_KEY")
 else:
     DEBUG = True
-
+    ALLOWED_HOSTS = ["*"]
     SECRET_KEY = "piosenka-local-dev-not-really-secret"
 
     MEDIA_ROOT = os.path.join(PROJECT_PATH, "site_media")
